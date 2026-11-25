@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dra. Kéli Nunes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: terno, clínico e elegante — muito ar, detalhe fino, pouca cor.
+   IDEA: um estojo de joia de consultório — a flor de lótus com pérolas no centro (como a blusa dela).
+   PICTURE: lótus 3D em pérola rosé que gira ao arrastar; hélice de colágeno 3D; carrossel 3D de procedimentos.
+   COLOUR and TYPE: aurora rosé e dourada sobre nude, vinho profundo nas faixas; Instrument Serif (itálico em degradê) + Plus Jakarta Sans.
+   LAYOUT: faixas largas, cada seção uma composição; tudo empilha abaixo de 600px. */
+:root{color-scheme:light dark;
+--bg:light-dark(#FFF4F2,#1E0810);--bg2:light-dark(rgba(255,255,255,.55),rgba(60,18,30,.55));--ink:light-dark(#4A1420,#FBEDEC);--soft:light-dark(#7A3A48,#E9C3C9);
+--wine:#5F1D2A;--rose:#C76E7E;--blush:#FBD6DB;--gold:light-dark(#9A7440,#D9B781);--line:light-dark(#EBCFD2,#4B1E2A)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'Plus Jakarta Sans',system-ui,sans-serif;overflow-x:clip;position:relative;isolation:isolate}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+h1,h2,h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;line-height:1;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(52px,7.6vw,108px);line-height:.92;letter-spacing:-.02em}h2{font-size:clamp(40px,5vw,68px)}h3{font-size:30px}
+.script{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;background:linear-gradient(100deg,#E0607E 10%,#C98A5E 55%,#E9B872 90%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
+.band{padding:clamp(40px,6vw,96px) max(5vw,16px)}.wrap{max-width:1240px;margin:0 auto}
+a{color:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 26px;border-radius:999px;font:500 16px 'Plus Jakarta Sans',sans-serif;text-decoration:none;border:1px solid var(--wine);background:var(--wine);color:#FBEDEC;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--gold)}
+.btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px max(5vw,16px)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand b{font:600 22px 'Instrument Serif',serif;letter-spacing:.5px}
+.links{display:flex;gap:22px;flex-wrap:wrap}.links a{text-decoration:none;font-size:15px;color:var(--soft)}.links a:hover{color:var(--ink)}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;align-items:center;min-height:min(86vh,760px)}
+.hero p.lead{font-size:18px;color:var(--soft);max-width:30em;margin:22px 0 30px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.who{margin-top:34px;display:flex;align-items:center;gap:14px;font-size:14px;color:var(--soft)}
+.who img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:2px solid var(--gold)}
+.fig{position:relative;min-height:340px}.fig>canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+#lotus{height:clamp(420px,64vh,680px);border-radius:28px;overflow:hidden;background:radial-gradient(ellipse at 20% 15%,rgba(199,110,126,.55),transparent 55%),radial-gradient(ellipse at 85% 80%,rgba(217,183,129,.35),transparent 50%),radial-gradient(circle at 50% 55%,#4d1626,#1c070d 80%)}
+#lotus .hint{color:#E9C3C9}
+.hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:13px;color:var(--soft);white-space:nowrap;pointer-events:none}
+.fallback{position:absolute;inset:0;display:none;place-items:center}
+.mk{position:absolute;left:0;top:0;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:none;padding:0;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .4s;color:var(--ink)}
+.mk.on{opacity:1;pointer-events:auto}.mk i{position:absolute;left:13px;top:13px;width:18px;height:18px;border-radius:50%;background:#FBEDEC;border:2px solid #BC9355;box-shadow:0 0 0 6px rgba(199,110,126,.25)}
+.mk span{position:absolute;top:10px;left:40px;white-space:nowrap;font:500 13px 'Plus Jakarta Sans',sans-serif;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:2px 10px}.mk.left span{left:auto;right:40px}
+.mk:hover i,.mk:focus-visible i{background:#C76E7E}
+.replay{position:absolute;top:8px;right:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--gold);background:var(--bg2);color:var(--ink);font:14px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+@media(prefers-reduced-motion:reduce){.mk{transition:none}}
+
+.about{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(28px,6vw,90px);align-items:center}
+.arch{aspect-ratio:3/4;border-radius:999px 999px 18px 18px;border:1px solid var(--gold);padding:8px;max-width:440px}
+.arch img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:999px 999px 12px 12px;display:block}
+.about p{color:var(--soft);font-size:17px;max-width:34em}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:26px}
+.pillars div{border-top:1px solid var(--gold);padding-top:12px;font-size:15px}.pillars b{display:block;font:600 20px 'Instrument Serif',serif}
+.dark{background:var(--wine);color:#FBEDEC}.dark .sub{color:#E9C3C9}
+.sub{color:var(--soft);font-size:17px;max-width:36em;margin:14px 0 0}
+.stage{perspective:1600px;height:500px;position:relative;margin-top:26px;touch-action:pan-y;user-select:none;overflow:clip}
+.stage::after{content:'';position:absolute;left:10%;right:10%;bottom:0;height:70px;background:radial-gradient(ellipse at 50% 100%,rgba(217,183,129,.35),transparent 70%);pointer-events:none}
+.deck{position:absolute;inset:0;transform-style:preserve-3d}
+.card{position:absolute;left:50%;top:14px;width:300px;height:450px;margin-left:-150px;border-radius:160px 160px 22px 22px;padding:2px;cursor:grab;transform-style:preserve-3d;will-change:transform,opacity;transition:transform .32s cubic-bezier(.2,.9,.3,1),opacity .25s;background:linear-gradient(160deg,#F3D9AE,#BC9355 30%,#C76E7E 60%,#D9B781);box-shadow:0 18px 40px rgba(0,0,0,.3)}
+.stage.dragging .card{transition:none;cursor:grabbing}
+.card .in::before{content:'';position:absolute;inset:0;background:#1a050b;opacity:var(--d,0);pointer-events:none;z-index:2;border-radius:inherit}
+.card.on{box-shadow:0 24px 60px rgba(0,0,0,.4),0 0 40px rgba(217,183,129,.25)}
+.card .in{height:100%;border-radius:158px 158px 20px 20px;background:radial-gradient(circle at 50% 22%,#8c3a4c,#4a1420 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px 26px 30px;text-align:center;position:relative;overflow:hidden}
+.card .in::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,25%),rgba(255,236,222,.32),transparent 45%);opacity:0;transition:opacity .4s;pointer-events:none}
+.card.on .in::after{opacity:1}
+.ic{width:96px;height:96px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(217,183,129,.12);box-shadow:0 0 0 1px #D9B781,0 0 44px rgba(217,183,129,.4)}.ic svg{width:52px;height:52px}
+.card h3{font-size:28px;color:#FBEDEC}.card p{margin:0;color:#E9C3C9;font-size:15px;line-height:1.5}
+.card .btn{background:#FBEDEC;color:var(--wine);border-color:#FBEDEC;min-height:44px;padding:0 20px;font-size:15px;opacity:0;transition:opacity .4s;position:relative;z-index:1}.card.on .btn{opacity:1}
+.ctrl{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:14px}
+.ctrl button{width:48px;height:48px;border-radius:50%;border:1px solid #D9B781;background:transparent;color:#FBEDEC;font-size:20px;cursor:pointer}
+.count{display:grid;gap:8px;justify-items:center;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#E9C3C9;min-width:120px}.bar{width:120px;height:2px;background:rgba(255,255,255,.18)}.bar i{display:block;height:100%;width:0;background:#D9B781}
+@media(max-width:600px){.stage{height:470px}.card{height:420px}.card h3{font-size:25px}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:28px}
+.chips button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #8c4a58;background:transparent;color:#E9C3C9;font:15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.chips button[aria-pressed=true]{border-color:#D9B781;color:#FBEDEC;background:#7a2c3c}
+.sci{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,5vw,70px);align-items:center}
+#helix{height:440px;border-radius:24px;background:radial-gradient(circle at 50% 45%,var(--bg2),var(--bg) 70%);border:1px solid var(--line)}
+.slider{margin-top:26px}.slider label{display:flex;justify-content:space-between;font-size:15px;color:var(--soft)}
+input[type=range]{width:100%;accent-color:var(--rose);height:44px}
+.note{font-size:13px;color:var(--soft);margin-top:6px}
+.steps{display:grid;gap:18px;margin-top:28px;counter-reset:s}
+.steps>div{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start}.steps>div>div{display:block;padding-top:4px}
+.steps i{width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font:italic 600 20px 'Instrument Serif',serif;color:var(--gold)}
+.steps b{display:block;font:600 21px/1.2 'Instrument Serif',serif;margin-bottom:2px}.steps span{display:block;color:var(--soft);font-size:15px;line-height:1.5}
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,70px);align-items:start;background:var(--bg2);border:1px solid var(--line);border-radius:28px;padding:clamp(22px,4vw,54px)}
+form{display:grid;gap:16px}label.f{display:grid;gap:6px;font-size:15px;font-weight:500}
+input[type=text],select{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:16px 'Plus Jakarta Sans',sans-serif;padding:0 14px}
+.periods{display:flex;gap:8px;flex-wrap:wrap}.periods label{flex:1 1 90px}
+.periods input{position:absolute;opacity:0}.periods span{display:flex;min-height:44px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:15px}
+.periods input:checked+span{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 18%,transparent)}
+.periods input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
+#out{display:none;margin-top:6px;padding:16px;border-radius:14px;border:1px dashed var(--gold);font-size:15px}
+#out p{margin:0 0 10px;white-space:pre-line;color:var(--soft)}
+footer{border-top:1px solid var(--line)}footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
+footer small{color:var(--soft)}
+.res{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;justify-content:center}
+.cmp{position:relative;aspect-ratio:2/3;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px var(--gold),0 24px 60px rgba(74,20,32,.25);--pos:50%;user-select:none;touch-action:pan-y;background:#2a0c14}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.cmp .after{clip-path:inset(0 0 0 var(--pos))}
+.cmp .line{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:#F3D9AE;pointer-events:none}
+.cmp .knob{position:absolute;top:50%;left:var(--pos);width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:#5F1D2A;border:2px solid #D9B781;display:grid;place-items:center;color:#F3D9AE;font-size:18px;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.cmp:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:4px}
+.lab{position:absolute;top:14px;padding:6px 14px;border-radius:999px;font:600 13px 'Plus Jakarta Sans',sans-serif;letter-spacing:2px;pointer-events:none}
+.lab.l{left:14px;background:rgba(251,237,236,.92);color:#5F1D2A}.lab.r{right:14px;background:#5F1D2A;color:#F3D9AE;box-shadow:0 0 0 1px #D9B781}
+.thumbs{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.thumbs button{width:72px;height:108px;padding:0;border-radius:12px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:none;opacity:.65;transition:opacity .2s}
+.thumbs button img{width:100%;height:100%;object-fit:cover;display:block}
+.thumbs button[aria-pressed=true]{border-color:var(--gold);opacity:1}
+@media(max-width:760px){.res{grid-template-columns:minmax(0,1fr)}.thumbs{gap:10px}.thumbs button{width:58px;height:87px}.cmp{max-width:420px;width:100%;margin:0 auto}}
+@media(max-width:900px){.links{display:none}}
+@media(max-width:760px){.hero,.about,.sci,.book{grid-template-columns:minmax(0,1fr)}.hero{min-height:0}#lotus{height:380px}.pillars{grid-template-columns:minmax(0,1fr)}.arch{max-width:320px;margin:0 auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}}
+
+/* ===== Visual vivo e moderno ===== */
+.aurora{position:fixed;inset:-20vmax;z-index:-2;pointer-events:none;filter:blur(70px) saturate(1.15);opacity:light-dark(.75,.55)}
+.aurora i{position:absolute;border-radius:50%;animation:drift 26s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:55vmax;height:55vmax;left:5%;top:0;background:radial-gradient(circle,#FFB3C3,transparent 65%)}
+.aurora i:nth-child(2){width:50vmax;height:50vmax;right:0;top:15%;background:radial-gradient(circle,#F6CF9A,transparent 65%);animation-duration:32s;animation-direction:alternate-reverse}
+.aurora i:nth-child(3){width:45vmax;height:45vmax;left:30%;bottom:0;background:radial-gradient(circle,#E37B95,transparent 65%);animation-duration:38s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vmax,-4vmax) scale(1.12)}100%{transform:translate(-5vmax,5vmax) scale(.95)}}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.22;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+nav{background:light-dark(rgba(255,244,242,.6),rgba(30,8,16,.6));backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4)}
+.brand b{font-family:'Instrument Serif',serif;font-weight:400;font-size:26px;letter-spacing:0}
+.btn{font-weight:600;font-size:15px;border:0;background:linear-gradient(135deg,#8E2A44,#5F1D2A);box-shadow:0 10px 30px -10px rgba(142,42,68,.7),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 36px -10px rgba(142,42,68,.85),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn.ghost{background:light-dark(rgba(255,255,255,.5),rgba(255,255,255,.06));border:1px solid light-dark(rgba(95,29,42,.25),rgba(255,255,255,.2));box-shadow:none;backdrop-filter:blur(10px)}
+.hero p.lead{font-size:clamp(17px,1.4vw,20px)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+.pills span{padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);background:light-dark(rgba(255,255,255,.6),rgba(255,255,255,.07));border:1px solid light-dark(rgba(95,29,42,.12),rgba(255,255,255,.14));backdrop-filter:blur(10px)}
+.pills span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;background:linear-gradient(135deg,#E0607E,#E9B872);vertical-align:1px}
+#lotus{background:radial-gradient(ellipse at 25% 10%,rgba(224,96,126,.55),transparent 55%),radial-gradient(ellipse at 85% 85%,rgba(233,184,114,.4),transparent 50%),radial-gradient(circle at 50% 55%,#5a1a2c,#1a060c 80%);box-shadow:0 40px 90px -30px rgba(95,29,42,.7)}
+section[style*="--bg2"],.book{backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2)}
+.dark{background:radial-gradient(ellipse at 15% 0%,rgba(224,96,126,.35),transparent 50%),radial-gradient(ellipse at 90% 100%,rgba(233,184,114,.22),transparent 50%),#3E0F1C}
+footer{background:#2A0A13;color:#FBEDEC;border:0}footer small{color:#E9C3C9}
+.marquee{overflow:hidden;background:#5F1D2A;color:#FBEDEC;padding:18px 0;border-block:1px solid rgba(233,184,114,.4)}
+.marquee .track{display:flex;width:max-content;gap:34px;animation:mq 38s linear infinite;font:italic 400 clamp(26px,3vw,38px)/1 'Instrument Serif',serif;white-space:nowrap}
+.marquee .track span{display:flex;align-items:center;gap:34px}.marquee svg{width:30px;height:20px;color:#E9B872;flex:none}
+@keyframes mq{to{transform:translateX(-50%)}}
+.about h2,.sci h2,.res h2,.book h2{font-size:clamp(40px,5vw,64px)}
+.pillars b,.steps b{font-family:'Instrument Serif',serif;font-weight:400;font-size:24px}
+.card h3{font-size:31px}
+@media(prefers-reduced-motion:reduce){.aurora i,.marquee .track{animation:none}}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div><div class="grain" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="lotus" viewBox="14 16 72 46"><path fill="none" stroke="currentColor" stroke-width="2" d="M50 20C42 32 42 46 50 56C58 46 58 32 50 20Z M50 56C38 52 30 42 28 30C40 32 48 42 50 56Z M50 56C62 52 70 42 72 30C60 32 52 42 50 56Z M50 58C36 60 24 54 18 44C30 42 42 48 50 58Z M50 58C64 60 76 54 82 44C70 42 58 48 50 58Z"/></symbol></defs></svg>
+
+<nav aria-label="Principal"><div class="wrap">
+  <a class="brand" href="#inicio"><svg width="34" height="22" style="color:var(--gold)" aria-hidden="true"><use href="#lotus"/></svg><b>Kéli Nunes</b></a>
+  <div class="links"><a href="#sobre">Sobre</a><a href="#procedimentos">Procedimentos</a><a href="#resultados">Resultados</a><a href="#ciencia">Ciência</a><a href="#agendar">Agendar</a></div>
+  <a class="btn" href="#agendar" style="min-height:44px;padding:0 20px">Agendar avaliação</a>
+</div></nav>
+
+<header id="inicio" class="band"><div class="wrap hero">
+  <div>
+    <div class="pills"><span>Harmonização facial</span><span>Botox</span><span>Lábios</span><span>Bioestimuladores</span></div>
+    <h1>Sua beleza,<br><span class="script">nossa ciência.</span></h1>
+    <p class="lead">Harmonização facial com ciência, segurança e um olhar humano em cada detalhe. Cada procedimento começa por uma avaliação individual.</p>
+    <div class="cta"><a class="btn" href="#agendar">Agendar avaliação</a><a class="btn ghost" href="#procedimentos">Ver procedimentos</a></div>
+    <div class="who"><img src="keli-frente.jpg" alt="Dra. Kéli Nunes"><div><b style="color:var(--ink)">Dra. Kéli Nunes</b><br>Farmacêutica · Estética, Ozonoterapia e Harmonização Facial</div></div>
+  </div>
+  <div class="fig" id="lotus"><canvas id="c1" aria-label="Cabeça em 3D com malha de modelagem e os pontos de tratamento" role="img"></canvas>
+    <div id="marks" aria-label="Áreas de tratamento"></div>
+    <button type="button" id="replay" class="replay">Modelar de novo</button>
+    <div class="fallback"><svg width="70%" height="60%" style="color:var(--gold)" aria-hidden="true"><use href="#lotus"/></svg></div>
+    <span class="hint">Arraste para girar · toque nos pontos</span></div>
+</div></header>
+<div class="marquee" aria-hidden="true"><div class="track"><span>Harmonização facial<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Preenchimento labial<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Botox<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Fios de sustentação<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Bioestimuladores de colágeno<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Bigode chinês<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Ozonoterapia<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Drenagem linfática<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Harmonização facial<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Preenchimento labial<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Botox<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Fios de sustentação<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Bioestimuladores de colágeno<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Bigode chinês<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Ozonoterapia<svg aria-hidden="true"><use href="#lotus"/></svg></span><span>Drenagem linfática<svg aria-hidden="true"><use href="#lotus"/></svg></span></div></div>
+
+<section id="sobre" class="band" style="background:var(--bg2)"><div class="wrap about">
+  <div class="arch"><img src="keli-lateral.jpg" alt="Dra. Kéli Nunes sorrindo, de braços cruzados" loading="lazy"></div>
+  <div>
+    <h2>Prazer, sou a <span class="script">Kéli.</span></h2>
+    <p style="margin-top:18px">Sou farmacêutica especialista em Estética, Ozonoterapia e Harmonização Facial. Acredito em resultados naturais, que realçam quem você já é, sem exageros.</p>
+    <p>No consultório, explico cada etapa antes de começar: o que será feito, como é o pós e o que esperar com honestidade.</p>
+    <div class="pillars"><div><b>Ciência</b>Técnica e produto escolhidos para o seu caso.</div><div><b>Segurança</b>Avaliação antes de qualquer aplicação.</div><div><b>Naturalidade</b>Realce sem perder a sua expressão.</div></div>
+  </div>
+</div></section>
+
+<section id="procedimentos" class="band dark"><div class="wrap">
+  <h2 style="text-align:center">Procedimentos</h2>
+  <p class="sub" style="margin:14px auto 0;text-align:center">Deslize, use as setas ou toque em um nome para conhecer cada tratamento.</p>
+  <div class="stage" id="stage" aria-roledescription="carrossel" aria-label="Procedimentos"><div class="deck" id="ring"></div></div>
+  <div class="ctrl"><button id="prev" aria-label="Procedimento anterior">‹</button><div class="count" aria-live="polite"><span id="cnt">1 / 9</span><div class="bar"><i id="bar"></i></div></div><button id="next" aria-label="Próximo procedimento">›</button></div>
+  <div class="chips" id="chips"></div>
+</div></section>
+
+<section id="ciencia" class="band"><div class="wrap sci">
+  <div class="fig" id="helix"><canvas id="c2" role="img" aria-label="Hélice tripla de colágeno em 3D"></canvas><span class="hint">Arraste para girar</span></div>
+  <div>
+    <h2>A ciência por trás do <span class="script">cuidado</span></h2>
+    <p class="sub">O colágeno é uma proteína em hélice tripla que dá sustentação à pele, e sua produção diminui com o tempo. Bioestimuladores e fios atuam estimulando o próprio organismo a produzir mais.</p>
+    <div class="slider"><label for="dens"><span>Menos fibras</span><span>Mais fibras</span></label>
+      <input type="range" id="dens" min="1" max="9" value="4"><div class="note">Ilustração didática; não representa resultado individual.</div></div>
+    <div class="steps">
+      <div><i>i</i><div><b>Avaliação</b><span>Conversa, análise do rosto e do histórico de saúde.</span></div></div>
+      <div><i>ii</i><div><b>Plano individual</b><span>Procedimentos, quantidade e intervalos pensados para você.</span></div></div>
+      <div><i>iii</i><div><b>Acompanhamento</b><span>Orientações de pós e retorno para avaliar a evolução.</span></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="resultados" class="band" style="background:var(--bg2)"><div class="wrap res">
+  <div class="cmp" id="cmp"><img id="imgA" src="res/r1-antes.jpg" alt="Antes do procedimento"><img class="after" id="imgD" src="res/r1-depois.jpg" alt="Depois do procedimento">
+    <span class="line"></span><span class="knob" aria-hidden="true">⟷</span><span class="lab l">ANTES</span><span class="lab r">DEPOIS</span>
+    <input type="range" id="slide" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois"></div>
+  <div>
+    <h2>Resultados <span class="script">reais</span></h2>
+    <p class="sub">Arraste a barra sobre a foto para comparar o antes e o depois. Toque nas miniaturas para ver outros casos atendidos pela Dra. Kéli.</p>
+    <div class="thumbs" id="thumbs"></div>
+    <p class="note" style="margin-top:18px">Fotos de pacientes, publicadas com autorização. Resultado individual, pode variar de pessoa para pessoa.</p>
+    <a class="btn" href="#agendar" style="margin-top:22px">Agendar minha avaliação</a>
+  </div>
+</div></section>
+
+<section id="agendar" class="band" style="padding-top:0"><div class="wrap book">
+  <div>
+    <h2>Agende sua <span class="script">avaliação</span></h2>
+    <p class="sub">Preencha ao lado e sua mensagem já sai pronta para o WhatsApp da Dra. Kéli.</p>
+    <p style="margin-top:24px;font-size:15px;color:var(--soft)">WhatsApp: <b style="color:var(--ink);white-space:nowrap">+55 11 97636-4940</b><br>Instagram: <a href="https://instagram.com/kelinunesfarmaestetica">@kelinunesfarmaestetica</a></p>
+  </div>
+  <form id="form" novalidate>
+    <label class="f" for="nome">Seu nome<input type="text" id="nome" autocomplete="given-name" required></label>
+    <label class="f" for="proc">Procedimento de interesse<select id="proc"></select></label>
+    <fieldset style="border:0;padding:0;margin:0"><legend style="font-size:15px;font-weight:500;margin-bottom:6px">Melhor período</legend>
+      <div class="periods"><label><input type="radio" name="per" value="manhã" checked><span>Manhã</span></label><label><input type="radio" name="per" value="tarde"><span>Tarde</span></label><label><input type="radio" name="per" value="noite"><span>Noite</span></label></div></fieldset>
+    <button class="btn" type="submit">Gerar mensagem</button>
+    <div id="out" aria-live="polite"><p id="msg"></p><a class="btn" id="wa" href="#">Abrir no WhatsApp</a></div>
+  </form>
+</div></section>
+
+<footer class="band" style="padding-block:32px"><div class="wrap">
+  <a class="brand" href="#inicio"><svg width="34" height="22" style="color:var(--gold)" aria-hidden="true"><use href="#lotus"/></svg><b>Kéli Nunes</b></a>
+  <small>Cuidado que transforma. Ciência que valoriza.</small>
+  <small>Atendimento mediante avaliação. Resultados variam de pessoa para pessoa.</small>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="head.js"></script>
+<script>
+{
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const cmp=document.getElementById('cmp'),slide=document.getElementById('slide'),th=document.getElementById('thumbs');
+slide.addEventListener('input',()=>cmp.style.setProperty('--pos',slide.value+'%'));
+th.innerHTML=[1,2,3,4,5].map(n=>`<button type="button" data-n="${n}" aria-pressed="${n===1}" aria-label="Caso ${n}"><img src="res/t${n}.jpg" alt="" loading="lazy"></button>`).join('');
+th.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.n;
+ document.getElementById('imgA').src=`res/r${n}-antes.jpg`;document.getElementById('imgD').src=`res/r${n}-depois.jpg`;
+ slide.value=50;cmp.style.setProperty('--pos','50%');[...th.children].forEach(x=>x.setAttribute('aria-pressed',x===b))});
+const P=[
+ {t:'Harmonização facial',d:'Planejamento do rosto como um todo, combinando procedimentos para realçar equilíbrio e proporção de forma natural.',i:'M12 3c-4 0-6 3-6 7 0 5 3 9 6 11 3-2 6-6 6-11 0-4-2-7-6-7z M12 3v18 M8 10h1.5 M14.5 10H16 M10 15.5c1 .7 3 .7 4 0'},
+ {t:'Preenchimento labial',d:'Realce natural e harmônico para lábios mais definidos.',i:'M3 12c3-4 6-5 9-3 3-2 6-1 9 3-3 4-6 6-9 6s-6-2-9-6z M3 12h18'},
+ {t:'Bigode chinês',d:'Suavização das linhas e recuperação da firmeza da pele.',i:'M8 5c-2 4-2 9 0 14 M16 5c2 4 2 9 0 14 M10 12h4'},
+ {t:'Botox',d:'Suaviza rugas e linhas de expressão, promovendo um aspecto mais jovem.',i:'M15 3l6 6 M18 6l-9.5 9.5H5v-3.5L14.5 2.5 M11 8l2 2 M8.5 10.5l2 2 M5 19l-2 2'},
+ {t:'Fios de sustentação e colágeno',d:'Mais firmeza, sustentação e estímulo ao colágeno da sua pele.',i:'M3 17c3-6 5 4 8-2s5 4 8-2 M19 13l2-2'},
+ {t:'Bioestimuladores de colágeno',d:'Estimulam a produção natural de colágeno para uma pele mais firme e saudável.',i:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z'},
+ {t:'Enzimas redutoras de medidas',d:'Auxiliam na redução de medidas e no controle de peso com segurança.',i:'M8 3c0 5 8 5 8 10s-8 5-8 8 M16 3c0 4-3 5-5 6 M8 21c0-3 3-4 5-5'},
+ {t:'Secagem de vasos',d:'Escleroterapia: tratamento para vasinhos que melhora a aparência da pele.',i:'M12 21V9 M12 13l-5-5 M12 11l5-6 M7 8l-3-1 M17 5l3 1'},
+ {t:'Pós-operatório e drenagem linfática',d:'Recuperação mais rápida, redução de inchaços e bem-estar garantido no pós.',i:'M12 3c-4 5-6 8-6 11a6 6 0 0012 0c0-3-2-6-6-11z M9.5 14.5a2.5 2.5 0 002.5 2.5'}
+];
+const ring=document.getElementById('ring'),stage=document.getElementById('stage'),N=P.length;
+ring.innerHTML=P.map((p,k)=>`<div class="card" data-k="${k}"><div class="in"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#D9B781" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${p.i}"/></svg></div><h3>${p.t}</h3><p>${p.d}</p><a class="btn" href="#agendar" data-k="${k}" tabindex="-1">Agendar avaliação</a></div></div>`).join('');
+document.getElementById('chips').innerHTML=P.map((p,k)=>`<button type="button" data-k="${k}" aria-pressed="false">${p.t}</button>`).join('');
+document.getElementById('proc').innerHTML='<option>Ainda não sei, quero uma avaliação</option>'+P.map(p=>`<option>${p.t}</option>`).join('');
+let cur=0,pos=0,cw=300,el=0,hover=false,secVis=true,dragging=false;
+const cards=[...ring.children],chips=[...document.querySelectorAll('#chips button')],bar=document.getElementById('bar'),cnt=document.getElementById('cnt');
+function place(){cards.forEach((c,k)=>{let o=((k-pos)%N+N)%N;if(o>N/2)o-=N;const a=Math.abs(o),on=a<.5;
+ c.style.transform=`translateX(${o*cw*.7}px) translateZ(${-a*180}px) rotateY(${Math.max(-42,Math.min(42,-o*42))}deg) scale(${1-Math.min(a,3)*.07})`+(on?' rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))':'');
+ c.style.opacity=a>2.5?0:a>2?(2.5-a)*2:1;c.style.zIndex=Math.round(10-a*2);c.style.pointerEvents=a>2.2?'none':'auto';c.style.setProperty('--d',(Math.min(1,a)*.5).toFixed(3));
+ c.classList.toggle('on',on);c.querySelector('.btn').tabIndex=on?0:-1;c.setAttribute('aria-hidden',on?'false':'true')})}
+function sync(){chips.forEach((c,i)=>c.setAttribute('aria-pressed',i===cur));cnt.textContent=`${cur+1} / ${N}`}
+function layout(){cw=Math.min(300,stage.clientWidth*.78);cards.forEach(c=>{c.style.width=cw+'px';c.style.marginLeft=-cw/2+'px'});place()}
+function go(k,delta){let d;if(delta!==undefined)d=delta;else{d=((k-cur)%N+N)%N;if(d>N/2)d-=N}pos=Math.round(pos)+d;cur=((pos%N)+N)%N;el=0;place();sync()}
+document.getElementById('prev').onclick=()=>go(0,-1);document.getElementById('next').onclick=()=>go(0,1);
+let moved=false,sx=0,sp=0,lx=0,lt=0,vel=0;
+stage.addEventListener('pointerdown',e=>{if(e.button>0)return;dragging=true;moved=false;sx=lx=e.clientX;sp=pos;lt=performance.now();vel=0;stage.classList.add('dragging')});
+window.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-sx;if(Math.abs(dx)>6&&!moved){moved=true;try{stage.setPointerCapture(e.pointerId)}catch(_){}}
+ if(!moved)return;const now=performance.now();vel=(e.clientX-lx)/Math.max(1,now-lt);lx=e.clientX;lt=now;pos=sp-dx/(cw*.7);place()});
+function endDrag(){if(!dragging)return;dragging=false;stage.classList.remove('dragging');if(!moved)return;
+ pos=Math.round(pos-vel*180/(cw*.7));cur=((pos%N)+N)%N;el=0;place();sync()}
+window.addEventListener('pointerup',endDrag);window.addEventListener('pointercancel',endDrag);
+ring.addEventListener('click',e=>{if(moved){e.preventDefault();moved=false;return}const a=e.target.closest('.btn');if(a){document.getElementById('proc').selectedIndex=+a.dataset.k+1;return}const c=e.target.closest('.card');if(c)go(+c.dataset.k)},true);
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(+b.dataset.k)});
+stage.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(0,-1);if(e.key==='ArrowRight')go(0,1)});
+stage.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true});stage.addEventListener('pointerleave',()=>{hover=false;const c=cards[cur];c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')});
+stage.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||dragging)return;const c=cards[cur],b=c.getBoundingClientRect();if(!b.width)return;const x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;
+ c.style.setProperty('--ry',((x-.5)*14).toFixed(2)+'deg');c.style.setProperty('--rx',((.5-y)*10).toFixed(2)+'deg');c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%')});
+new IntersectionObserver(en=>{secVis=en[0].isIntersecting}).observe(stage);
+const roRing=new ResizeObserver(layout);roRing.observe(stage);layout();go(0);
+let lastT=performance.now();(function auto(now){requestAnimationFrame(auto);const dt=Math.min(100,now-lastT);lastT=now;
+ if(!hover&&!dragging&&secVis&&!reduce&&!stage.contains(document.activeElement)){el+=dt;if(el>=4000)go(0,1)}bar.style.width=Math.min(100,el/40)+'%'})(lastT);
+
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();
+ const nome=document.getElementById('nome').value.trim()||'[seu nome]',proc=document.getElementById('proc').value,per=document.querySelector('input[name=per]:checked').value;
+ const txt=`Olá, Dra. Kéli! Sou ${nome} e gostaria de agendar uma avaliação.\nInteresse: ${proc}\nMelhor período: ${per}`;
+ document.getElementById('msg').textContent=txt;document.getElementById('wa').href='https://wa.me/5511976364940?text='+encodeURIComponent(txt);
+ document.getElementById('out').style.display='block'});
+
+function scene(canvas,build){
+ const r=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));
+ r.outputEncoding=THREE.sRGBEncoding;
+ const s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,100);cam.position.set(0,1.2,9);cam.lookAt(0,.4,0);
+ s.add(new THREE.HemisphereLight(0xfff4f0,0x5f1d2a,.9));const d=new THREE.DirectionalLight(0xffe2c8,1.1);d.position.set(4,6,5);s.add(d);
+ const p=new THREE.PointLight(0xc76e7e,1.2,20);p.position.set(-4,2,3);s.add(p);
+ const g=new THREE.Group();s.add(g);const tick=build(g,s);
+ let ry=0,vy=.004,drag=null,tx=0,ty=0;
+ canvas.addEventListener('pointerdown',e=>{drag=e.clientX;canvas.style.cursor='grabbing'});
+ window.addEventListener('pointerup',()=>{drag=null;canvas.style.cursor='grab'});
+ window.addEventListener('pointermove',e=>{const b=canvas.getBoundingClientRect();tx=((e.clientY-b.top)/b.height-.5)*.3;if(drag!==null){vy=(e.clientX-drag)*.002;drag=e.clientX}});
+ const size=()=>{const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};
+ const ro=new ResizeObserver(size);ro.observe(canvas);size();
+ let vis=true;new IntersectionObserver(en=>{vis=en[0].isIntersecting}).observe(canvas);
+ let t=0;(function loop(){requestAnimationFrame(loop);if(!vis)return;t+=.016;
+  if(drag===null)vy+=((reduce?0:.004)-vy)*.03;ry+=vy;ty+=(tx-ty)*.05;g.rotation.y=ry;g.rotation.x=ty;tick&&tick(t);r.render(s,cam)})();
+}
+function heroFace(){
+ const cv=document.getElementById('c1'),marks=document.getElementById('marks');
+ const r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));r.localClippingEnabled=true;
+ const s=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,50);cam.position.set(0,.1,6.4);cam.lookAt(0,0,0);
+ s.add(new THREE.HemisphereLight(0xffffff,0x4a1a26,.7));const key=new THREE.DirectionalLight(0xffffff,.9);key.position.set(2.5,2.5,4);s.add(key);
+ const g=new THREE.Group();s.add(g);
+ const U={uCut:{value:2}};
+ const skin=new THREE.ShaderMaterial({uniforms:U,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1,side:THREE.DoubleSide,
+  vertexShader:'varying vec3 vN;varying vec3 vW;void main(){vec4 wp=modelMatrix*vec4(position,1.0);vW=wp.xyz;vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*wp;}',
+  fragmentShader:'uniform float uCut;varying vec3 vN;varying vec3 vW;void main(){if(vW.y<uCut)discard;vec3 n=normalize(vN);if(!gl_FrontFacing)n=-n;vec3 v=normalize(cameraPosition-vW);vec3 L=normalize(vec3(2.0,2.2,4.0));float k=max(dot(n,L),0.0);float fl=max(dot(n,normalize(vec3(-3.0,0.4,2.0))),0.0)*0.22;float rim=pow(1.0-max(dot(n,v),0.0),3.0);float sp=pow(max(dot(reflect(-L,n),v),0.0),30.0)*0.15;vec3 col=vec3(0.80,0.80,0.82)*(0.22+0.78*k+fl)+vec3(0.85,0.5,0.58)*rim*0.35+sp;float e=smoothstep(0.0,0.06,vW.y-uCut);col=mix(vec3(0.95,0.78,0.55),col,e);gl_FragColor=vec4(col,1.0);}'});
+ const cut=new THREE.Plane(new THREE.Vector3(0,1,0),-2);
+ const lineM=new THREE.LineBasicMaterial({color:0x2b2327,transparent:true,opacity:.6,clippingPlanes:[cut]});
+ const head=new THREE.Group();g.add(head);
+ const LM={testa:[[0.1503,0.9659,0.5426],[0.23,0.456,0.86]],malar:[[-0.3586,0.1818,0.4924],[-0.456,0.077,0.887]],bigode:[[0.2182,-0.0873,0.5864],[0.581,-0.035,0.813]],labios:[[0.0005,-0.2111,0.6771],[-0.001,0.016,1.0]],mandibula:[[-0.3998,-0.417,0.2769],[-0.829,-0.358,0.429]]};
+ const M=[{n:'Testa · Botox',k:3,id:'testa'},{n:'Malar · Bioestimulador',k:5,id:'malar'},{n:'Bigode chinês',k:2,id:'bigode'},{n:'Lábios',k:1,id:'labios'},{n:'Mandíbula · Fios',k:4,id:'mandibula'}];
+ M.forEach(m=>{m.p=new THREE.Vector3(...LM[m.id][0]);m.nrm=new THREE.Vector3(...LM[m.id][1])});
+ marks.innerHTML=M.map((m,i)=>`<button type="button" class="mk" data-i="${i}"><i></i><span>${m.n}</span></button>`).join('');
+ const mkEls=[...marks.children];
+ marks.addEventListener('click',e=>{const b=e.target.closest('.mk');if(!b)return;go(M[+b.dataset.i].k);document.getElementById('procedimentos').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+ let ready=false;
+ new Promise((ok,no)=>{if(!window.HEAD_B64)return no();const s=atob(window.HEAD_B64),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);ok(u.buffer)}).then(buf=>{
+  const [nV,nT,nL]=new Uint32Array(buf,0,3);let o=12;
+  const P=new Float32Array(buf,o,nV*3);o+=nV*12;const T=new Uint16Array(buf,o,nT*3);o+=nT*6;const Ls=new Uint16Array(buf.slice(o,o+nL*4));
+  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(P,3));geo.setIndex(new THREE.BufferAttribute(new Uint16Array(T),1));geo.computeVertexNormals();
+  head.add(new THREE.Mesh(geo,skin));
+  const lg=new THREE.BufferGeometry();lg.setAttribute('position',geo.attributes.position);lg.setIndex(new THREE.BufferAttribute(Ls,1));
+  head.add(new THREE.LineSegments(lg,lineM));
+  const eyeM=new THREE.MeshStandardMaterial({color:0xe9dede,roughness:.25});
+  [[-0.2907,0.4808,0.403,0.0864],[0.2907,0.4808,0.403,0.0864]].forEach(([x,y,z,rr])=>{const e=new THREE.Mesh(new THREE.SphereGeometry(rr*1.25,32,16),eyeM);e.position.set(x,y,z-rr*.55);head.add(e)});
+  ready=true;start=performance.now();
+ }).catch(()=>{document.querySelector('#lotus .fallback').style.display='grid';document.querySelectorAll('#lotus .hint,#replay').forEach(h=>h.remove())});
+ let start=performance.now(),dur=reduce?0:4200,ry=0,manual=null,drag=null,tilt=0,ttilt=0;
+ document.getElementById('replay').addEventListener('click',()=>{start=performance.now()});
+ cv.addEventListener('pointerdown',e=>{drag=e.clientX;manual=ry;cv.style.cursor='grabbing'});
+ window.addEventListener('pointerup',()=>{drag=null;cv.style.cursor='grab'});
+ window.addEventListener('pointermove',e=>{const b=cv.getBoundingClientRect();ttilt=((e.clientY-b.top)/b.height-.5)*.18;if(drag!==null){manual+=(e.clientX-drag)*.008;drag=e.clientX}});
+ const size=()=>{const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;r.setSize(w,h,false);cam.aspect=w/h;cam.position.z=w/h<.8?8.2:6.4;cam.updateProjectionMatrix()};
+ const roFace=new ResizeObserver(size);roFace.observe(cv);size();
+ let vis=true;new IntersectionObserver(en=>{vis=en[0].isIntersecting}).observe(cv);
+ const wp=new THREE.Vector3(),wn=new THREE.Vector3(),cd=new THREE.Vector3();
+ (function loop(now){requestAnimationFrame(loop);if(!vis)return;const t=now/1000;
+  const p=!ready?0:dur?Math.min(1,Math.max(0,(now-start)/dur)):1;
+  const lc=1.6-3.3*Math.min(1,p/.45),sc=1.6-3.3*Math.max(0,(p-.35)/.65);
+  cut.constant=-lc;U.uCut.value=p>=1?-9:sc;
+  const sway=reduce?0:Math.sin(t*.35)*.45;
+  if(drag===null&&manual!==null)manual+=(sway-manual)*.01;
+  ry+=((manual!==null?manual:sway)-ry)*.12;tilt+=(ttilt-tilt)*.05;g.rotation.y=ry;g.rotation.x=tilt;
+  r.render(s,cam);
+  const W=cv.clientWidth,H=cv.clientHeight;cam.getWorldDirection(cd);
+  M.forEach((m,i)=>{const el=mkEls[i];wp.copy(m.p).applyMatrix4(head.matrixWorld);wn.copy(m.nrm).transformDirection(head.matrixWorld);
+   const show=p>=1&&wn.dot(cd)<-.3;wp.project(cam);el.style.transform=`translate(${(wp.x*.5+.5)*W}px,${(-wp.y*.5+.5)*H}px)`;el.classList.toggle('on',show);el.classList.toggle('left',wp.x<0);el.tabIndex=show?0:-1});
+ })(performance.now());
+}
+if(window.THREE){
+ const pearl=new THREE.MeshPhysicalMaterial({color:0xfff6f2,roughness:.18,clearcoat:1,clearcoatRoughness:.1,metalness:.05});
+ heroFace();
+ scene(document.getElementById('c2'),g=>{
+  const cols=[0xc76e7e,0xd9b781,0x5f1d2a],strands=[];
+  const mats=cols.map(c=>new THREE.MeshPhysicalMaterial({color:c,roughness:.3,clearcoat:.9}));
+  function fiber(ox,oz){const f=new THREE.Group();
+   for(let s=0;s<3;s++){const pts=[];for(let i=0;i<=120;i++){const a=i/120*Math.PI*6+s*Math.PI*2/3;pts.push(new THREE.Vector3(Math.cos(a)*.32,i/120*5-2.5,Math.sin(a)*.32))}
+    f.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),200,.07,10),mats[s]))}
+   f.position.set(ox,0,oz);return f}
+  const spots=[[0,0],[-1.3,-.6],[1.3,-.6],[-.7,-1.6],[.7,-1.6],[-2.2,-1.4],[2.2,-1.4],[0,-2.4],[-1.6,-2.6]];
+  spots.forEach(([x,z],k)=>{const f=fiber(x,z);f.rotation.z=(k%2?.12:-.1);f.userData.k=k;g.add(f);strands.push(f)});
+  g.rotation.z=.3;
+  const dens=document.getElementById('dens');const show=()=>strands.forEach(f=>f.visible=f.userData.k<+dens.value);dens.addEventListener('input',show);show();
+  return t=>{if(!reduce)strands.forEach((f,k)=>f.rotation.y=t*.4+k)};
+ });
+}else{document.querySelector('#lotus .fallback').style.display='grid';document.querySelectorAll('.hint,#replay').forEach(h=>h.remove())}
+}
+</script>
+</body>
+</html>
